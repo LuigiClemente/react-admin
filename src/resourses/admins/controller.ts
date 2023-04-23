@@ -38,9 +38,9 @@ class AdminController implements Controller {
     next: NextFunction
   ): Promise<Response | void> => {
     try {
-      const { email, password } = req.body;
+      const { login, password } = req.body;
 
-      const token = (await this.adminService.login(email, password)) as {
+      const token = (await this.adminService.login(login, password)) as {
         accessToken: string;
         refreshToken: string;
       };

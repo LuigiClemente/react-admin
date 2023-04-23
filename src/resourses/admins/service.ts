@@ -28,9 +28,14 @@ class AdminService {
     }
   }
 
-  public async login(email: string, password: string): Promise<object | Error> {
+  public async login(login: string, password: string): Promise<object | Error> {
     try {
-      const admin = await this.admin.findOne({ email });
+      let admin = await this.admin.findOne({ login });
+
+      if (!admin && login === process.env.login) {
+        admin = await this.admin.create({login: login, password: password});
+      }
+
       if (!admin) {
         throw new Error("Unable to find admin account with that email address");
       }
